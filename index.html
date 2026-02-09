@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>💘 Valentine’s Invitation 💘</title>
+</head>
+
+<body style="
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg, #ff9a9e, #fad0c4, #ffd1ff);
+  font-family:'Times New Roman', serif;
+  overflow:hidden;
+">
+
+<div id="card" style="
+  background:rgba(255,255,255,0.92);
+  padding:30px;
+  border-radius:25px;
+  text-align:center;
+  box-shadow:0 15px 40px rgba(0,0,0,0.2);
+  max-width:340px;
+  z-index:2;
+">
+
+  <div style="font-size:40px;">💖💌💖</div>
+
+  <h1 id="question" style="font-size:28px;color:#ff3366;">
+    Will you be my Valentine, Dhea, my love?
+  </h1>
+
+  <p id="plea" style="font-size:18px;color:#ff6699;min-height:24px;">
+    I promise lots of love 💕
+  </p>
+
+  <p id="countdown" style="font-size:16px;color:#ff3366;"></p>
+
+  <div id="buttonArea" style="margin-top:20px; height:140px; position:relative;">
+
+    <button id="yesBtn" onclick="yesClicked()" style="
+      padding:14px 28px;
+      font-size:18px;
+      background:#ff4d6d;
+      color:white;
+      border:none;
+      border-radius:30px;
+      cursor:pointer;
+      transition:all 0.3s;
+    ">
+      YES 💘
+    </button>
+
+    <!-- NO button starts under YES -->
+    <button id="noBtn" onclick="noClicked()" style="
+      padding:12px 24px;
+      font-size:16px;
+      background:#cccccc;
+      color:#333;
+      border:none;
+      border-radius:30px;
+      cursor:pointer;
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      top:70px;
+    ">
+      No 🙈
+    </button>
+
+  </div>
+
+  <div style="margin-top:20px;font-size:22px;">🌸🌷🌸🌷🌸</div>
+</div>
+
+<script>
+/* Floating Hearts */
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.innerHTML = "💖";
+  heart.style.position = "fixed";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.bottom = "0px";
+  heart.style.fontSize = Math.random() * 20 + 20 + "px";
+  heart.style.opacity = 0.8;
+  heart.style.zIndex = 1;
+  document.body.appendChild(heart);
+
+  let rise = 0;
+  const float = setInterval(() => {
+    rise += 1;
+    heart.style.bottom = rise + "px";
+    heart.style.opacity -= 0.003;
+    if (rise > 700) {
+      clearInterval(float);
+      heart.remove();
+    }
+  }, 20);
+}, 700);
+
+/* Countdown */
+function updateCountdown() {
+  const target = new Date(new Date().getFullYear(), 1, 14);
+  const now = new Date();
+  if (now > target) target.setFullYear(target.getFullYear() + 1);
+
+  const diff = target - now;
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+
+  document.getElementById("countdown").innerText =
+    days + " days and " + hours + " hours to go 💘";
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+/* Logic */
+let yesSize = 18;
+let firstNoClick = true;
+
+const pleas = [
+  "PLEASE!!! 🥺💔",
+  "I’ll be really sad 😭",
+  "Pretty please with love 💕",
+  "Don’t break my heart 💘",
+  "I’m begging you kung love mo ko 🥹",
+  "Say yes pleaseeee, its my treat naman ih 😖💖"
+];
+
+function noClicked() {
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+
+  document.getElementById("question").innerText = "PLEASE!!! 😭💖";
+  document.getElementById("plea").innerText =
+    pleas[Math.floor(Math.random() * pleas.length)];
+
+  // After first click, allow NO button to move anywhere
+  if (firstNoClick) {
+    noBtn.style.position = "fixed";
+    firstNoClick = false;
+  }
+
+  noBtn.style.left = Math.random() * 85 + "vw";
+  noBtn.style.top = Math.random() * 85 + "vh";
+
+  yesSize += 4;
+  yesBtn.style.fontSize = yesSize + "px";
+}
+
+function yesClicked() {
+  document.getElementById("noBtn").style.display = "none";
+
+  document.getElementById("card").innerHTML = `
+    <div style="font-size:45px;">🎉💖🎉</div>
+    <h1 style="color:#ff3366;">YEHEY!!! 💕💘</h1>
+    <p style="font-size:20px;color:#ff6699;">
+      You said YES 🥰<br>I’m so happy right now cuz you clicked yes bebe 💞
+    </p>
+
+    <button id="detailsBtn" onclick="showDetails()" style="
+      padding:14px 26px;
+      font-size:18px;
+      background:#ff4d6d;
+      color:white;
+      border:none;
+      border-radius:30px;
+      cursor:pointer;
+    ">
+      Click this for details 💌
+    </button>
+
+    <div id="details" style="display:none;margin-top:20px;color:#ff3366;">
+      <p>💘 See you on <b>February 14</b> at <b>10:30 AM</b></p>
+      <p>📍 Where: In Makati<br>
+      <span style="font-size:15px;">(The place will be a surprise hehe 😘)</span></p>
+      <p>👗 What to wear: <b>Anything pink</b> 💗</p>
+      <p>🎒 What to bring: It’s up to you…<br>
+      just don’t forget your <b>pretty and gorgeous face</b> lolzies 😆💖</p>
+      <div style="font-size:26px;">🌹💞🌹💞🌹</div>
+    </div>
+  `;
+}
+
+function showDetails() {
+  document.getElementById("detailsBtn").style.display = "none";
+  document.getElementById("details").style.display = "block";
+}
+</script>
+
+</body>
+</html>
